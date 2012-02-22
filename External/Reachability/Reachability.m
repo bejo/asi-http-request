@@ -132,7 +132,9 @@ static NSString *reachabilityFlags_(SCNetworkReachabilityFlags flags) {
 #else
 	// Compile out the v3.0 features for v2.2.1 deployment.
     return [NSString stringWithFormat:@"Reachability Flags: %c%c %c%c%c%c%c%c",
+            #if TARGET_OS_IPHONE
 			(flags & kSCNetworkReachabilityFlagsIsWWAN)               ? 'W' : '-',
+            #endif
 			(flags & kSCNetworkReachabilityFlagsReachable)            ? 'R' : '-',
 			
 			(flags & kSCNetworkReachabilityFlagsConnectionRequired)   ? 'c' : '-',
@@ -439,7 +441,9 @@ const SCNetworkReachabilityFlags kConnectionDown =  kSCNetworkReachabilityFlagsC
 		// WWAN Connection required: Reachability Flag Status: WR ct-----
 		//
 		// Test Value: Reachability Flag Status: WR xxxxxxx
+        #if TARGET_OS_IPHONE 
 		if (flags & kSCNetworkReachabilityFlagsIsWWAN) { return kReachableViaWWAN; }
+        #endif 
 		
 		// Clear moot bits.
 		flags &= ~kSCNetworkReachabilityFlagsReachable;
